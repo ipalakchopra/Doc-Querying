@@ -1,0 +1,8 @@
+streamlit
+langchain
+langchain_community
+langchain_core
+dotenv
+langchain-huggingface
+pypdf
+chromadb
