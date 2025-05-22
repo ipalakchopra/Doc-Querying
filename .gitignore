@@ -1,4 +1,4 @@
 app_env
 sudo
 .env
-chromadb*
+#chromadb*
