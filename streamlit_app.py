@@ -1,6 +1,7 @@
 # DOCUMENTATION QUERYING APPLICATION
 
 #Importing Libraries
+import streamlit as st
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 import os
@@ -25,6 +26,12 @@ os.environ["LANGSMITH_ENDPOINT"] = "https://api.smith.langchain.com"
 #client = Client()
 start = time.process_time()
 
+#Streamlit Variables
+if "vector" not in st.session_state:
+    st.session_state.vectors = Chroma(persist_directory="./chromadb",embedding_function=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
+
+st.title("Doc-Querying")
+
 # Mistral LLM
 llm = OllamaLLM(model="mistral:7b")
 
@@ -37,16 +44,23 @@ Think step by step before providing a detailed answer.
 </context>
 Question: {input}""")
 
-#Vector DB
-vectordb = Chroma(persist_directory="./chromadb_rssyslog",embedding_function=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
-
-#Retriever
-retriever = vectordb.as_retriever()
-
-#Chains
 document_chain = create_stuff_documents_chain(llm, prompt)
-retrieval_chain = create_retrieval_chain(retriever,document_chain)
-print(retrieval_chain.invoke({'input':"How to connect rsyslog remote"})['answer'])
+retriever = st.session_state.vectors.as_retriever()
+
+retrieval_chain = create_retrieval_chain(retriever, document_chain)
+
+prompt = st.text_input("Input your prompt here")
+
+if prompt:
+    start = time.process_time()
+    response = retrieval_chain.invoke({"input":prompt})
+    print("Response time: ", time.process_time()-start)
+    st.write(response['answer'])
+
+    with st.expander("Doc Similarity Search"):
+        for i, doc in enumerate(response["context"]):
+            st.write(doc.page_content)
+            st.write("---------------------------------")
 print("Response time:", time.process_time()-start)
 
 #print(llm.invoke("What is kafka"))

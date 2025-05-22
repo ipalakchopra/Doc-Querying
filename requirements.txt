@@ -9,3 +9,5 @@ chromadb
 dotenv
 langchain_ollama
 langsmith
+bs4
+lxml
