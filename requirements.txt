@@ -6,3 +6,6 @@ dotenv
 langchain-huggingface
 pypdf
 chromadb
+dotenv
+langchain_ollama
+langsmith
