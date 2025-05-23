@@ -28,7 +28,7 @@ start = time.process_time()
 
 #Streamlit Variables
 if "vector" not in st.session_state:
-    st.session_state.vectors = Chroma(persist_directory="./db/chromadb_rsyslog",embedding_function=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
+    st.session_state.vectors = Chroma(persist_directory="./db/combined_chromadb",embedding_function=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
 
 st.title("Doc-Querying")
 
