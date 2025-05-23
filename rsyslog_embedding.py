@@ -12,6 +12,6 @@ text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200
 documents=text_splitter.split_documents(docs)
 print(documents)
 
-db = Chroma.from_documents(persist_directory="./chromadb_rsylog", documents=documents,embedding=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
+db = Chroma.from_documents(persist_directory="./chromadb_rsyslog", documents=documents,embedding=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
 
 print(db.search("MySQL","similarity")[0].page_content)

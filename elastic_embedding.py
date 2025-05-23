@@ -7,6 +7,15 @@ from langchain_community.document_loaders.sitemap import SitemapLoader
 
 #loader = WebBaseLoader("https://www.rsyslog.com/doc/")
 sitemap_loader = SitemapLoader(web_path="https://www.elastic.co/docs/sitemap.xml")
+
+loader = SitemapLoader(
+    web_path="https://www.elastic.co/sitemap.xml",
+    filter_urls=[
+        "https://www.elastic.co/docs/deploy-manage/deploy/self-managed"
+    ]
+)
+
+
 docs = sitemap_loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
 documents=text_splitter.split_documents(docs)

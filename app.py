@@ -38,7 +38,7 @@ Think step by step before providing a detailed answer.
 Question: {input}""")
 
 #Vector DB
-vectordb = Chroma(persist_directory="./chromadb_rssyslog",embedding_function=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
+vectordb = Chroma(persist_directory="./chromadb_elastic",embedding_function=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
 
 #Retriever
 retriever = vectordb.as_retriever()
@@ -46,7 +46,8 @@ retriever = vectordb.as_retriever()
 #Chains
 document_chain = create_stuff_documents_chain(llm, prompt)
 retrieval_chain = create_retrieval_chain(retriever,document_chain)
-print(retrieval_chain.invoke({'input':"How to connect rsyslog remote"})['answer'])
+print(retrieval_chain.invoke({'input':"Information on the doc"})['answer'])
 print("Response time:", time.process_time()-start)
+print(retrieval_chain.invoke({'input':"How to setup and elasticsearch cluster"})['answer'])
 
 #print(llm.invoke("What is kafka"))

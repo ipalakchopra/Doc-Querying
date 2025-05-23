@@ -14,7 +14,7 @@ documents=text_splitter.split_documents(docs)
 print(documents)
 
 #Vector Embeddings
-db = Chroma.from_documents(persist_directory="./chromadb", documents=documents,embedding=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
+db = Chroma.from_documents(persist_directory="./chromadb_kafka", documents=documents,embedding=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
 
 vectordb = Chroma(persist_directory="./chromadb",embedding_function=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
 print(db.search("kafka","similarity")[0].page_content)
