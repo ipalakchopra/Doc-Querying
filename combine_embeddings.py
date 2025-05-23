@@ -1,15 +1,12 @@
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
-# Step 1: Initialize the embedding model (must be the same one used in both DBs)
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
 
-# Step 2: Load both existing Chroma DBs
 chroma1 = Chroma(persist_directory="./db/chromadb_kafka", embedding_function=embedding)
 chroma2 = Chroma(persist_directory="./db/chromadb_rsyslog", embedding_function=embedding)
 chroma3 = Chroma(persist_directory="./chromadb_elastic", embedding_function=embedding)
 
-# Step 3: Extract documents and metadata
 data1 = chroma1.get()
 data2 = chroma2.get()
 data3 = chroma3.get()
@@ -17,12 +14,11 @@ data3 = chroma3.get()
 all_texts = data1['documents'] + data2['documents'] + data3['documents']
 all_metas = data1['metadatas'] + data2['metadatas'] + data3['metadatas']
 
-# Step 4: Combine into a new Chroma DB (this auto-persists!)
 combined_chroma = Chroma.from_texts(
     texts=all_texts,
     embedding=embedding,
     metadatas=all_metas,
-    persist_directory="./combined_chromadb"  # ✅ This enables persistence
+    persist_directory="./combined_chromadb"  
 )
 
 print(f"Combined DB created with {len(all_texts)} documents.")

@@ -3,13 +3,16 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-firecrawl_api_key = os.getenv("FIRECRAWL_API_KEY")
-loader = FireCrawlLoader(
-    api_key=firecrawl_api_key, url="https://www.freeipa.org/", mode="crawl"
-)
+os.environ["FIRECRAWL_API_KEY"] = os.getenv("FIRECRAWL_API_KEY")
+# loader = FireCrawlLoader(
+#     api_key=firecrawl_api_key, url="https://firecrawl.dev", mode="scrape",
+# )
+
+loader = FireCrawlLoader(url="https://firecrawl.dev",mode="scrape")
+
 print(loader)
 docs = []
-docs_lazy = loader.load_and_split()
+docs_lazy = loader.load()
 
 print(docs_lazy)
 # async variant:
