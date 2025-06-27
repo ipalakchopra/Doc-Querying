@@ -28,7 +28,7 @@ start = time.process_time()
 
 #Streamlit Variables
 if "vector" not in st.session_state:
-    st.session_state.vectors = Chroma(persist_directory="./db/combined_chromadb",embedding_function=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
+    st.session_state.vectors = Chroma(persist_directory="./db/combined_kafka_rsys",embedding_function=HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2'))
 
 st.title("Doc-Querying")
 
@@ -37,7 +37,7 @@ llm = OllamaLLM(model="mistral:7b")
 
 #Prompt Template
 prompt = ChatPromptTemplate.from_template("""
-Answer the following question based only on the provided context.
+Answer the following question based only on the provided context on the Elasticsearch stack, Apache Kafka and Rsyslog.
 Think step by step before providing a detailed answer.
 <context>
 {context}
